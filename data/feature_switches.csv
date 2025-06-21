@@ -1,0 +1,4 @@
+name,description,active
+awesome_feature_1,"This is an awesome Feature",True
+awesome_feature_2,"This is also an awesome Feature",True
+cool_feature_1,"This is a really cool feature",True
