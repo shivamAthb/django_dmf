@@ -34,10 +34,6 @@ setup(
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
         "Topic :: Software Development :: Libraries",
-        "Topic :: Software Development :: Libraries :: Application Frameworks",
-        "Topic :: Database",
-        "Topic :: Utilities",
-        "Topic :: Software Development :: Migration Tools",
     ],
     install_requires=[
         "Django>=3.2",
