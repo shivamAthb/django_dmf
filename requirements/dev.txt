@@ -2,3 +2,4 @@
 pre-commit==3.6.0
 ruff==0.1.14
 black==25.1.0
+setuptools==80.9.0
