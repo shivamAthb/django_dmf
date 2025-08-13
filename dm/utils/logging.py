@@ -1,8 +1,7 @@
 import logging
 from json_log_formatter import JSONFormatter
 
-DMF_LOGGER = "dmf_logger"
-logger = logging.getLogger(DMF_LOGGER)
+logger = logging.getLogger()
 
 
 class StandardJSONLogFormatter(JSONFormatter):

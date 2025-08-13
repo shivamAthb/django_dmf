@@ -144,6 +144,7 @@ LOGGING = {
             "formatter": "json",
         },
     },
+    "root": {"handlers": ["console"], "level": APPLICATION_LOG_LEVEL},
     "loggers": {
         "dmf_logger": {
             "handlers": ["console"],
