@@ -5,7 +5,7 @@ setup(
     version="0.0.1",
     packages=find_packages(),
     include_package_data=True,
-    license="MIT",
+    license_files=["LICENSE"],
     description="A Version Controlled Fully Managed Data Migration Framework for Django",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
