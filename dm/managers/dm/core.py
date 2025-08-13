@@ -52,7 +52,15 @@ class DataMigrationManager:
             return None
 
         task_obj = self.task_class()
-        self.dm_exec_obj, message = self.init_dm(execution_version=task_obj.version)
+        try:
+            self.dm_exec_obj, message = self.init_dm(execution_version=task_obj.version)
+        except Exception as e:
+            logger.info(
+                f"Exception occurred while initializing Data Migration task "
+                f"{self.task_class_name} v{task_obj.version} - {str(e)}"
+            )
+            traceback.print_exc()
+            return False
 
         if self.dm_exec_obj is None and message:
             if message != "already_completed":
