@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -125,3 +126,29 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DATA_MIGRATION_REGISTRY = [
     "dmf_test_app.dm.tasks.switch.FeatureSwitchDataMigrationTask"
 ]
+
+APPLICATION_LOG_LEVEL = "DEBUG" if os.getenv("ENVIRONMENT") != "PROD" else "INFO"
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": True,
+    "formatters": {
+        "standard": {"format": "%(asctime)s [%(levelname)s]- %(message)s"},
+        "json": {
+            "()": "dm.utils.logging.StandardJSONLogFormatter",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": APPLICATION_LOG_LEVEL,
+            "class": "logging.StreamHandler",
+            "formatter": "json",
+        },
+    },
+    "loggers": {
+        "dmf_logger": {
+            "handlers": ["console"],
+            "level": APPLICATION_LOG_LEVEL,
+            "propagate": True,
+        },
+    },
+}

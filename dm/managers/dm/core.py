@@ -1,8 +1,8 @@
 import traceback
 
-# from core.utils.logging import logger
 from dm.constants import DataMigrationStatus
 from dm.models import DataMigrationExecution
+from dm.utils.logging import logger
 
 
 class DataMigrationManager:
@@ -48,33 +48,36 @@ class DataMigrationManager:
 
     def run(self):
         if not self.task_class:
-            # logger.info("No Data Migration task class specified")
+            logger.info("No Data Migration task class specified")
             return None
 
         task_obj = self.task_class()
         self.dm_exec_obj, message = self.init_dm(execution_version=task_obj.version)
 
         if self.dm_exec_obj is None and message:
-            # if message != "already_completed":
-            #     logger.info(
-            #         f"Cannot execute task {self.task_class_name} v{task_obj.version}. Reason: {message}"
-            #     )
+            if message != "already_completed":
+                logger.info(
+                    f"Cannot execute task {self.task_class_name} v{task_obj.version}. Reason: {message}"
+                )
             return None
 
-        # logger.info(f"Running {self.dm_exec_obj.__str__()}")
+        logger.info(f"Running {self.dm_exec_obj.__str__()}")
         try:
             status, error_message = task_obj.run()
-        except Exception:
-            # logger.info(
-            #     f"Exception occurred while running {self.dm_exec_obj.__str__()}: {str(e)}"
-            # )
+        except Exception as e:
+            logger.info(
+                f"Exception occurred while running {self.dm_exec_obj.__str__()}: {str(e)}"
+            )
             traceback.print_exc()
-            return self.mark_dm_as_failed()
+            self.mark_dm_as_failed()
+            return False
 
         if status is False:
-            # logger.info(
-            #     f"Data Migration task {self.dm_exec_obj.__str__()} failed: {error_message}"
-            # )
-            return self.mark_dm_as_failed()
+            logger.info(
+                f"Data Migration task {self.dm_exec_obj.__str__()} failed: {error_message}"
+            )
+            self.mark_dm_as_failed()
+            return False
 
-        return self.mark_dm_as_completed()
+        self.mark_dm_as_completed()
+        return True

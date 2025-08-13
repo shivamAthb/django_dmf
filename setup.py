@@ -36,8 +36,6 @@ setup(
         "Programming Language :: Python :: 3.13",
         "Topic :: Software Development :: Libraries",
     ],
-    install_requires=[
-        "Django>=3.2",
-    ],
+    install_requires=["Django>=3.2", 'json-log-formatter'],
     python_requires=">=3.7",
 )
