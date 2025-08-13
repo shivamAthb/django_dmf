@@ -9,9 +9,9 @@ setup(
     description="A Version Controlled Fully Managed Data Migration Framework for Django",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/shvm-7397/django_dmf",
+    url="https://github.com/shivamAthb/django_dmf",
     author="Shivam Sharma",
-    author_email="shivamsharmas007@gmail.com",
+    author_email="shivam.sharma@helixbeat.com",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
