@@ -2,7 +2,7 @@ import traceback
 
 from django.db import transaction
 
-# from core.utils.logging import logger
+from dm.utils.logging import logger
 
 
 class BaseDataMigrationTask:
@@ -22,16 +22,16 @@ class BaseDataMigrationTask:
         try:
             self._run()
         except Exception as e:
-            # logger.info(
-            #     f"Exception occurred while running the Data Migration task - {str(e)}"
-            # )
+            logger.info(
+                f"Exception occurred while running the Data Migration task - {str(e)}"
+            )
             traceback.print_exc()
             transaction.rollback()
             transaction.set_autocommit(True)
             return False, str(e)
         else:
             transaction.commit()
-            # logger.info("Transaction committed")
+            logger.info("Transaction committed!")
             transaction.set_autocommit(True)
 
         return True, None
