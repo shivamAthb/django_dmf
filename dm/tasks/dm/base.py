@@ -8,11 +8,30 @@ from dm.utils.logging import logger
 class BaseDataMigrationTask:
     def __init__(self, **kwargs):
         self.version = None
+        self.run_in_public_schema = True
+        self.run_in_custom_schema = True
 
     def _run(self):
         raise NotImplementedError
 
+    @classmethod
+    def get_current_schema_name(cls):
+        return getattr(connection, "schema_name", None)
+
     def run(self, **kwargs):
+        current_schema_name = self.get_current_schema_name()
+        if current_schema_name is not None:
+            if not self.run_in_public_schema and current_schema_name == "public":
+                return (
+                    True,
+                    "Skipping running the data migration task in public schema.",
+                )
+            if not self.run_in_custom_schema and current_schema_name != "public":
+                return (
+                    True,
+                    "Skipping running the data migration task in custom schema.",
+                )
+
         if self.version is None:
             raise Exception(
                 "Version not defined. Skipping running the data migration task."
